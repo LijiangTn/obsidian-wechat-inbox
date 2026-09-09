@@ -1,0 +1,9 @@
+{
+	"id": "wechat-inbox",
+	"name": "WeChat Inbox",
+	"version": "0.1.0",
+	"minAppVersion": "1.7.2",
+	"description": "把微信「文件传输助手」变成 Obsidian 个人知识收件箱。需要本地 wx-filehelper-api worker。",
+	"author": "lijiang",
+	"isDesktopOnly": false
+}

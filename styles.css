@@ -1,0 +1,231 @@
+/* WeChat Inbox plugin styles */
+
+.wechat-inbox-view-content {
+	padding: 10px 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	height: 100%;
+	overflow-y: auto;
+}
+
+.wechat-inbox-view-header {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding-bottom: 6px;
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.wechat-inbox-status {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.wechat-inbox-dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.wechat-inbox-dot.connected { background: #4caf50; }
+.wechat-inbox-dot.disconnected { background: #9e9e9e; }
+.wechat-inbox-dot.scanning { background: #ff9800; }
+.wechat-inbox-dot.error { background: #f44336; }
+
+.wechat-inbox-status-meta {
+	font-size: 12px;
+	color: var(--text-muted);
+}
+
+.wechat-inbox-warn {
+	color: #f57c00;
+	font-size: 12px;
+	padding: 4px 8px;
+	background: rgba(245, 124, 0, 0.08);
+	border-radius: 4px;
+}
+
+.wechat-inbox-error {
+	color: var(--text-error);
+	font-size: 12px;
+	padding: 4px 8px;
+	background: rgba(244, 67, 54, 0.08);
+	border-radius: 4px;
+	word-break: break-word;
+}
+
+.wechat-inbox-qr-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	padding: 12px;
+}
+
+.wechat-inbox-qr {
+	width: 200px;
+	height: 200px;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 8px;
+	background: #fff;
+	padding: 6px;
+}
+
+.wechat-inbox-qr-status {
+	color: var(--text-muted);
+	font-size: 12px;
+}
+
+.wechat-inbox-messages {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	flex: 1;
+	min-height: 0;
+}
+
+.wechat-inbox-messages-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.wechat-inbox-messages-title {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.wechat-inbox-filters {
+	display: flex;
+	gap: 4px;
+}
+
+.wechat-inbox-filter {
+	padding: 2px 8px;
+	font-size: 11px;
+	border-radius: 3px;
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+	color: var(--text-normal);
+	cursor: pointer;
+}
+
+.wechat-inbox-filter-active {
+	background: var(--interactive-accent);
+	color: var(--text-on-accent);
+	border-color: var(--interactive-accent);
+}
+
+.wechat-inbox-messages-list {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.wechat-inbox-message {
+	padding: 6px 8px;
+	border-radius: 4px;
+	background: var(--background-secondary);
+	border-left: 3px solid var(--background-modifier-border);
+	font-size: 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.wechat-inbox-message-processed { border-left-color: #4caf50; }
+.wechat-inbox-message-skipped { border-left-color: #9e9e9e; opacity: 0.75; }
+.wechat-inbox-message-error { border-left-color: #f44336; }
+
+.wechat-inbox-message-head {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 11px;
+	color: var(--text-muted);
+}
+
+.wechat-inbox-message-icon { width: 14px; text-align: center; }
+.wechat-inbox-message-time { font-family: var(--font-monospace); }
+.wechat-inbox-message-status { margin-left: auto; }
+
+.wechat-inbox-message-body {
+	color: var(--text-normal);
+	word-break: break-word;
+	white-space: pre-wrap;
+}
+
+.wechat-inbox-message-error {
+	color: var(--text-error);
+	font-size: 11px;
+}
+
+.wechat-inbox-message-meta {
+	font-family: var(--font-monospace);
+	font-size: 10px;
+	color: var(--text-faint);
+	word-break: break-all;
+}
+
+.wechat-inbox-empty {
+	color: var(--text-muted);
+	font-size: 12px;
+	text-align: center;
+	padding: 24px 8px;
+}
+
+.wechat-inbox-messages-overflow {
+	color: var(--text-faint);
+	font-size: 11px;
+	text-align: center;
+	padding: 6px;
+}
+
+.wechat-inbox-actions {
+	display: flex;
+	gap: 6px;
+	flex-wrap: wrap;
+	padding-top: 6px;
+	border-top: 1px solid var(--background-modifier-border);
+}
+
+.wechat-inbox-actions button {
+	flex: 1;
+	min-width: 90px;
+	padding: 4px 8px;
+	font-size: 12px;
+}
+
+.wechat-inbox-actions button:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+.wechat-inbox-footer {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding-top: 4px;
+	border-top: 1px solid var(--background-modifier-border);
+}
+
+.wechat-inbox-footer-row {
+	font-family: var(--font-monospace);
+	font-size: 10px;
+	color: var(--text-faint);
+	word-break: break-all;
+}
+
+.wechat-inbox-footer-tip {
+	font-size: 10px;
+	color: var(--text-faint);
+	font-style: italic;
+}
