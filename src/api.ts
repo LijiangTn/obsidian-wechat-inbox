@@ -6,7 +6,7 @@
  * 这里定义的接口是公开契约——保持精简、稳定，并与内部模块解耦。
  */
 
-import type { ConnectionPhase } from "./types";
+import type { ConnectionPhase, PublicMessageType } from "./types";
 
 /*********************************** 公共消息结构 ***********************************/
 /**
@@ -23,7 +23,7 @@ export interface PublicMessage {
 	/** Worker update_id，同时也是 `getUpdates` 的 offset。 */
 	updateId: number;
 	/** worker 上报的消息类型。 */
-	type: "text" | "image" | "file";
+	type: PublicMessageType;
 	/** 消息正文（仅文本；附件类型为空）。 */
 	text: string;
 	/** 原始文件名（仅图片 / 文件消息）。 */

@@ -1,6 +1,6 @@
 import { requestUrl, RequestUrlParam } from "obsidian";
 import { BASE64_CHUNK_SIZE } from "./constants";
-import {
+import type {
 	FileMetaResult,
 	LoginStatus,
 	StoreStats,
@@ -44,10 +44,14 @@ export class FileHelperClient {
 			method: "GET",
 			throw: false,
 		});
-		if (response.status === 200 && response.headers?.["content-type"]?.startsWith("image/png")) {
+		const contentType = response.headers?.["content-type"] ?? "";
+		if (response.status === 200 && contentType.startsWith("image/png")) {
 			return response.arrayBuffer;
 		}
-		throw new HttpError(response.status, response.text ?? "QR unavailable");
+		const detail = response.text ?? "QR unavailable";
+		// /qr 在已登录时返回 200 + text/plain "Already logged in" —— 不算错
+		// 但语义上不是图片,显式抛错让上层走「已登录」分支。
+		throw new HttpError(response.status, detail);
 	}
 
 	/*********************************** 消息与文件 ***********************************/
@@ -106,7 +110,11 @@ export class FileHelperClient {
 		}
 
 		if (response.status < 200 || response.status >= 300) {
-			throw new HttpError(response.status, `${response.status} ${path}`);
+			const detail = readDetail(response.json) ?? response.text ?? "";
+			throw new HttpError(
+				response.status,
+				detail ? `${response.status} ${path}: ${detail}` : `${response.status} ${path}`,
+			);
 		}
 
 		try {
@@ -132,6 +140,16 @@ export class FileHelperClient {
 /*********************************** 工具函数 ***********************************/
 function stripTrailingSlash(url: string): string {
 	return url.replace(/\/+$/, "");
+}
+
+// FastAPI 错误响应是 {detail: string | array} —— 尽量把 detail 抽出来给 HttpError。
+function readDetail(payload: unknown): string | null {
+	if (payload && typeof payload === "object" && "detail" in payload) {
+		const detail = (payload as { detail: unknown }).detail;
+		if (typeof detail === "string") return detail;
+		if (Array.isArray(detail)) return JSON.stringify(detail);
+	}
+	return null;
 }
 
 export function bufferToBase64(buffer: ArrayBuffer): string {

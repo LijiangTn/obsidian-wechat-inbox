@@ -116,7 +116,7 @@ WeChat Inbox/
 
 - Obsidian `1.7.2` 或更高版本
 - 一个可用的本地同步服务
-- 默认连接地址：`http://127.0.0.1:8000`
+- 默认连接地址：`http://127.0.0.1:8081`
 - Node.js 18+（仅在从源码构建时需要）
 
 ---
@@ -163,7 +163,7 @@ npm run build
 
 | 设置项 | 默认值 | 说明 |
 |---|---|---|
-| Worker 地址 | `http://127.0.0.1:8000` | 本地同步服务的 HTTP 地址 |
+| Worker 地址 | `http://127.0.0.1:8081` | 本地同步服务（`weave`）的 HTTP 地址 |
 | 知识库目录 | `WeChat Inbox` | Vault 内收件箱根目录 |
 | 附件目录 | `attachments` | 当日目录下的附件子目录名 |
 | 按日期分层 | `ON` | 以 `年/月/日` 组织目录 |
@@ -271,7 +271,7 @@ const status = plugin.api.getConnectionStatus();
 如果你使用的是默认本地接口实现，可以先测试状态接口：
 
 ```bash
-curl http://127.0.0.1:8000/login/status
+curl http://127.0.0.1:8081/login/status
 ```
 
 ### 视图显示已连接，但 Vault 中没有写入内容
@@ -281,7 +281,7 @@ curl http://127.0.0.1:8000/login/status
 - 打开 Obsidian 开发者工具查看错误日志
 
 ```bash
-curl http://127.0.0.1:8000/store/stats
+curl http://127.0.0.1:8081/store/stats
 ```
 
 ### 重启 Obsidian 后怀疑出现重复导入

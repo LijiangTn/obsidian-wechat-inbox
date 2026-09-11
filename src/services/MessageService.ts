@@ -7,6 +7,7 @@ import type {
 	MessageLogEntry,
 	MessageStatus,
 	PersistedState,
+	PublicMessageType,
 	Update,
 	WeChatInboxSettings,
 } from "../types";
@@ -27,6 +28,19 @@ export interface MessageServiceDeps {
 export interface IngestResult {
 	processed: number;
 	skipped: number;
+}
+
+/*********************************** 类型归一 ***********************************/
+/**
+ * 把 worker 上报的不稳定 type 字符串归一成公共契约层的字面量联合。
+ *
+ * 边界守在这里：worker 协议层 (`UpdateMessage.type: string`) 会带 "unknown"
+ * 以及将来可能出现的新类型；下游 `MessageLogEntry.type` 必须是 `"text" | "image" | "file"`。
+ * 任何不在三种已支持类型内的 raw 值都归一成 "text"，避免 string 污染下游。
+ */
+function normalizeMessageType(raw: string): PublicMessageType {
+	if (raw === "image" || raw === "file") return raw;
+	return "text";
 }
 
 /*********************************** 消息处理服务 ***********************************/
@@ -128,6 +142,16 @@ export class MessageService {
 				continue;
 			}
 
+			// weave 在规范化失败时会把消息降级为 `unknown` —— 没正文也没附件,
+			// 落盘只会产生空段落,直接跳过并记住 id,避免反复 poll。
+			if (msg.type !== "text" && msg.type !== "image" && msg.type !== "file") {
+				this.remember(msg.message_id);
+				this.advanceOffset([update]);
+				this.emit(update, "skipped", `unsupported_type:${msg.type}`);
+				this.log(update, "skipped", `unsupported_type:${msg.type}`);
+				continue;
+			}
+
 			this.log(update, "received");
 
 			try {
@@ -212,7 +236,7 @@ export class MessageService {
 			receivedAt: Date.now(),
 			msgId: msg.message_id || "",
 			updateId: update.update_id,
-			type: msg.type,
+			type: normalizeMessageType(msg.type),
 			text: msg.text || "",
 			fileName: msg.document?.file_name,
 			status,
