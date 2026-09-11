@@ -22,6 +22,14 @@
 
 ---
 
+> [!IMPORTANT]
+> This plugin must be used together with **Weave**:
+> <https://github.com/LijiangTn/Weave>
+>
+> 安装本插件后，你还需要下载并启动 Weave 服务端，插件才能获取二维码、同步消息和下载附件。
+
+---
+
 ## Why this exists
 
 很多人会把临时资料先发到微信「文件传输助手」里，但这些内容通常停留在聊天记录中：
@@ -42,7 +50,7 @@
 它聚焦于三件事：
 
 - 在 Obsidian 中提供清晰的收件箱视图、命令和设置
-- 从本地同步服务拉取消息并完成去重、分类、状态记录
+- 从本地同步服务 Weave 拉取消息并完成去重、分类、状态记录
 - 将文本、图片和文件沉淀为按天组织的 Markdown 与附件目录
 
 插件本身不处理微信协议，也不直接与微信服务器通信。它的职责是作为 Obsidian 侧的收件箱客户端，把已有的本地同步能力接入到知识管理流程中。
@@ -115,9 +123,22 @@ WeChat Inbox/
 ## Requirements
 
 - Obsidian `1.7.2` 或更高版本
-- 一个可用的本地同步服务
+- 一个可用的本地同步服务：[`Weave`](https://github.com/LijiangTn/Weave)
 - 默认连接地址：`http://127.0.0.1:8081`
 - Node.js 18+（仅在从源码构建时需要）
+
+### Server dependency
+
+本插件不是独立的微信协议实现，需要与 `Weave` 配合使用：
+
+- GitHub: <https://github.com/LijiangTn/Weave>
+- 默认服务地址：`http://127.0.0.1:8081`
+
+建议使用顺序：
+
+1. 下载并启动 `Weave`
+2. 确认 `http://127.0.0.1:8081/api/v1/health` 可访问
+3. 再打开 Obsidian 插件并开始扫码登录
 
 ---
 
@@ -163,7 +184,7 @@ npm run build
 
 | 设置项 | 默认值 | 说明 |
 |---|---|---|
-| Worker 地址 | `http://127.0.0.1:8081` | 本地同步服务（`weave`）的 HTTP 地址 |
+| Worker 地址 | `http://127.0.0.1:8081` | 本地同步服务 [Weave](https://github.com/LijiangTn/Weave) 的 HTTP 地址 |
 | 知识库目录 | `WeChat Inbox` | Vault 内收件箱根目录 |
 | 附件目录 | `attachments` | 当日目录下的附件子目录名 |
 | 按日期分层 | `ON` | 以 `年/月/日` 组织目录 |
@@ -178,9 +199,10 @@ npm run build
 ## Usage
 
 1. 点击左侧 Ribbon 的消息图标，或通过命令面板执行 **打开微信收件箱**
-2. 右侧栏会显示二维码
-3. 使用手机微信扫码，并在手机上确认登录
-4. 状态切换为“已连接”后，发送到「文件传输助手」的内容会自动同步
+2. 如果 `Weave` 尚未启动，先按 UI 底部提示打开 GitHub 地址并启动服务端
+3. 右侧栏会显示二维码
+4. 使用手机微信扫码，并在手机上确认登录
+5. 状态切换为“已连接”后，发送到「文件传输助手」的内容会自动同步
 
 ---
 
@@ -203,7 +225,7 @@ npm run build
 |---|---|
 | 打开微信收件箱 | 打开或聚焦右侧收件箱视图 |
 | 刷新微信二维码 | 立即重新获取登录二维码 |
-| 重新拉取消息 | 重置 `lastUpdateId`，重新从本地服务拉取未处理更新 |
+| 重新拉取消息 | 重置同步游标，重新从本地服务拉取未处理更新 |
 | 处理全部消息（清空已处理列表） | 清空去重记录并从头处理消息，适合排障或重建 |
 
 ---
@@ -264,24 +286,24 @@ const status = plugin.api.getConnectionStatus();
 
 ### 二维码显示正常，但始终无法登录
 
-- 确认本地同步服务正在运行
+- 确认 [Weave](https://github.com/LijiangTn/Weave) 正在运行
 - 检查设置中的连接地址是否正确
 - 确认手机端已在扫码后点击“登录”
 
 如果你使用的是默认本地接口实现，可以先测试状态接口：
 
 ```bash
-curl http://127.0.0.1:8081/login/status
+curl http://127.0.0.1:8081/api/v1/wechat/login/status
 ```
 
 ### 视图显示已连接，但 Vault 中没有写入内容
 
 - 确认 **自动写入 Markdown** 处于开启状态
-- 检查本地同步服务是否已经收到消息
+- 检查 [Weave](https://github.com/LijiangTn/Weave) 是否已经收到消息
 - 打开 Obsidian 开发者工具查看错误日志
 
 ```bash
-curl http://127.0.0.1:8081/store/stats
+curl "http://127.0.0.1:8081/api/v1/messages?source=wechat&page=1&size=5"
 ```
 
 ### 重启 Obsidian 后怀疑出现重复导入

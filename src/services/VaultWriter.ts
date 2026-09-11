@@ -265,6 +265,18 @@ function sanitizeFileName(name: string): string {
 
 function deriveRelativePath(storedPath: string, fallbackName: string): string {
 	const normalized = storedPath.replace(/\\/g, "/");
+        if (normalized && !/^(?:[A-Za-z]:\/|\/)/.test(normalized)) {
+                return normalized
+                        .replace(/^\/+/, "")
+                        .replace(/^storage\/+/, "");
+        }
 	const idx = normalized.lastIndexOf("downloads/");
-	return idx >= 0 ? normalized.slice(idx + "downloads/".length) : fallbackName;
+        if (idx >= 0) {
+                return normalized.slice(idx + "downloads/".length);
+        }
+        const storageMatch = normalized.match(/(?:^|\/)storage\/(.+)$/);
+        if (storageMatch?.[1]) {
+                return storageMatch[1];
+        }
+        return fallbackName;
 }

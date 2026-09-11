@@ -6,6 +6,7 @@ import {
 	DEFAULT_POLL_INTERVAL_MS,
 	DEFAULT_WORKER_BASE_URL,
 	MIN_POLL_INTERVAL_MS,
+        WEAVE_REPOSITORY_URL,
 } from "./constants";
 
 /*********************************** 设置面板 ***********************************/
@@ -83,7 +84,7 @@ export class WeChatInboxSettingTab extends PluginSettingTab {
                                 items: [
                                         {
                                                 name: "Worker 地址",
-                                                desc: "Wx-filehelper-api 监听的 HTTP 地址",
+                                                desc: "Weave 服务端的 HTTP 地址。请先下载并启动 Weave：https://github.com/LijiangTn/Weave",
                                                 control: {
                                                         type: "text",
                                                         key: "workerBaseUrl",
@@ -166,9 +167,17 @@ export class WeChatInboxSettingTab extends PluginSettingTab {
 		/*********************************** 连接设置 ***********************************/
 		new Setting(containerEl).setName("连接设置").setHeading();
 
+                const weaveNotice = containerEl.createDiv({ cls: "wechat-inbox-settings-note" });
+                weaveNotice.appendText("本插件需要搭配 ");
+                weaveNotice.createEl("a", {
+                        text: "Weave",
+                        href: WEAVE_REPOSITORY_URL,
+                });
+                weaveNotice.appendText(" 服务端一起使用。请先下载并启动 Weave，再回到这里配置连接地址。");
+
 		new Setting(containerEl)
 			.setName("Worker 地址")
-                        .setDesc("Wx-filehelper-api 监听的 HTTP 地址")
+                        .setDesc("Weave 服务端的 HTTP 地址。默认地址为 http://127.0.0.1:8081")
 			.addText((text) =>
 				text
 					.setPlaceholder(DEFAULT_WORKER_BASE_URL)

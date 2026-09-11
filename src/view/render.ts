@@ -1,5 +1,8 @@
 import type { InboxViewState, ViewActions } from "./InboxView";
-import { MAX_RENDERED_MESSAGES } from "../constants";
+import {
+        MAX_RENDERED_MESSAGES,
+        WEAVE_REPOSITORY_URL,
+} from "../constants";
 import type { MessageLogEntry } from "../types";
 
 /*********************************** 过滤类型 ***********************************/
@@ -230,12 +233,22 @@ function renderFooter(root: HTMLElement, state: InboxViewState): void {
 	const footer = root.createDiv({ cls: "wechat-inbox-footer" });
 	footer.createDiv({
 		cls: "wechat-inbox-footer-row",
-		text: `Worker: ${state.workerUrl}`,
+                text: `Service: ${state.workerUrl}`,
 	});
 	footer.createDiv({
 		cls: "wechat-inbox-footer-row",
 		text: `收件箱: ${state.inboxFolder}`,
 	});
+        const repoRow = footer.createDiv({ cls: "wechat-inbox-footer-row" });
+        repoRow.appendText("依赖服务端: ");
+        repoRow.createEl("a", {
+                text: "Weave",
+                href: WEAVE_REPOSITORY_URL,
+        });
+        footer.createDiv({
+                cls: "wechat-inbox-footer-tip",
+                text: "首次使用前，请先下载并启动 Weave 服务端，再返回插件扫码登录。",
+        });
 	footer.createDiv({
 		cls: "wechat-inbox-footer-tip",
 		text: "调试日志：View → Toggle Developer Tools → Console（Verbose 级别）",

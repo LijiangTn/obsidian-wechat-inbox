@@ -33,6 +33,8 @@ export const WECHAT_INBOX_VIEW_TYPE = "wechat-inbox-view";
 /*********************************** Worker 相关 ***********************************/
 // weave worker 的默认地址。
 export const DEFAULT_WORKER_BASE_URL = "http://127.0.0.1:8081";
+// Weave 服务端仓库地址。
+export const WEAVE_REPOSITORY_URL = "https://github.com/LijiangTn/Weave";
 // Vault 内默认收件箱根目录。
 export const DEFAULT_INBOX_FOLDER = "WeChat Inbox";
 // 默认附件子目录名（放在每日目录内）。
