@@ -30,6 +30,19 @@
 
 ---
 
+## Preview
+
+<div align="center">
+  <img src="docs/demo-image1.png" alt="WeChat Inbox demo screenshot 1" width="48%">
+  <img src="docs/demo-image2.png" alt="WeChat Inbox demo screenshot 2" width="48%">
+</div>
+
+<div align="center">
+  插件侧栏预览：二维码登录、连接状态、消息日志与收件箱操作。
+</div>
+
+---
+
 ## Why this exists
 
 很多人会把临时资料先发到微信「文件传输助手」里，但这些内容通常停留在聊天记录中：
