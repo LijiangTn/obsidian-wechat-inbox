@@ -1,10 +1,4 @@
 <div align="center">
-
-  <p align="right">
-    <a href="../README.md"><img src="https://img.shields.io/badge/lang-English-blue?style=flat-square" alt="English"></a>
-    <a href="README.md"><img src="https://img.shields.io/badge/lang-中文-red?style=flat-square" alt="中文"></a>
-  </p>
-
   <img src="../logo.png" alt="WeChat Inbox logo" width="240">
 
   <h1>WeChat Inbox（微信收件箱）</h1>
@@ -23,6 +17,11 @@
     <img src="https://img.shields.io/badge/Local--first-Privacy%20friendly-16A34A?style=flat-square" alt="Local-first">
     <img src="https://img.shields.io/badge/Output-Markdown%20%26%20Attachments-2563EB?style=flat-square" alt="Markdown and attachments">
     <img src="https://img.shields.io/badge/License-MIT-black?style=flat-square" alt="MIT License">
+  </p>
+
+  <p align="center">
+    <a href="../README.md"><img src="https://img.shields.io/badge/lang-English-blue?style=flat-square" alt="English"></a>
+    <a href="README.md"><img src="https://img.shields.io/badge/lang-中文-red?style=flat-square" alt="中文"></a>
   </p>
 </div>
 
