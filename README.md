@@ -382,6 +382,14 @@ src/
 
 ---
 
+## A note from the author
+
+I don't really need anything out of this — I just want it to get used. `WeChat Inbox` is still far from finished, with plenty of rough edges.
+
+If you find it useful and want to see it improve, a ⭐ **Star** or an [Issue](../../issues) with feedback would mean a lot. As long as people find it worth using, I'll keep finding time to make it better.
+
+---
+
 ## License
 
 Released under the [MIT License](LICENSE).
